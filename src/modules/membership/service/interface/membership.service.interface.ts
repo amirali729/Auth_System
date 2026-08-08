@@ -5,12 +5,17 @@ import type {
 } from '../../types/membership.types.js';
 
 export interface IMembershipService {
-  list(organizationId: string, callerTenantId: string | undefined): Promise<MemberListResult>;
+  list(
+    organizationId: string,
+    callerTenantId: string | undefined,
+    callerId: string,
+  ): Promise<MemberListResult>;
 
   suspend(
     organizationId: string,
     userId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<MemberResult>;
 
@@ -18,6 +23,7 @@ export interface IMembershipService {
     organizationId: string,
     userId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<MemberResult>;
 
@@ -25,6 +31,7 @@ export interface IMembershipService {
     organizationId: string,
     userId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<RemoveMemberResult>;
 }

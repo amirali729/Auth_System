@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 
-import { User } from '../../../modules/auth/model/user.model.js';
 import { Membership } from '../../../modules/membership/model/membership.model.js';
+import { isPlatformOperator } from '../authorization/organization-access.js';
 
 /**
  * Self-hosted deployments typically run a single tenant and don't need
@@ -11,22 +11,6 @@ import { Membership } from '../../../modules/membership/model/membership.model.j
  */
 function isMultiTenantEnabled(): boolean {
   return process.env.MULTI_TENANT === 'true';
-}
-
-/**
- * True if the user holds an elevated platform role (owner/admin/support
- * - see shared/security/authorization/platform-roles.ts), set up via
- * bootstrap/assign-admin.ts or promoted by a Platform Owner. Trusted to
- * act on any organization rather than only ones they're an explicit
- * Member of - matches the architecture doc's platform-role
- * capabilities (Platform Admin/Support can both view any organization).
- */
-async function isPlatformOperator(userId: string): Promise<boolean> {
-  const user = await User.findById(userId).select('platformRole');
-
-  if (!user) return false;
-
-  return user.platformRole !== 'user';
 }
 
 /**

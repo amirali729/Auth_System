@@ -20,12 +20,13 @@ export class InvitationController implements IInvitationController {
       req.params.orgId as string,
       dto,
       req.tenantId,
+      req.user._id.toString(),
       req.user?._id?.toString(),
     );
   }
 
   async list(req: Request, _res: Response, _next: NextFunction): Promise<InvitationListResult> {
-    return this.service.list(req.params.orgId as string, req.tenantId);
+    return this.service.list(req.params.orgId as string, req.tenantId, req.user._id.toString());
   }
 
   async revoke(req: Request, _res: Response, _next: NextFunction): Promise<RevokeInvitationResult> {
@@ -33,6 +34,7 @@ export class InvitationController implements IInvitationController {
       req.params.orgId as string,
       req.params.invitationId as string,
       req.tenantId,
+      req.user._id.toString(),
       req.user?._id?.toString(),
     );
   }

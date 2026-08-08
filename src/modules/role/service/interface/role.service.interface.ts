@@ -12,25 +12,44 @@ import type {
 export interface IRoleService {
   list(tenantId: string | undefined): Promise<RoleListResult>;
 
-  getById(id: string): Promise<RoleResult>;
+  getById(id: string, callerTenantId: string | undefined, callerId: string): Promise<RoleResult>;
 
   create(dto: CreateRoleDto, tenantId: string | undefined, actorId?: string): Promise<RoleResult>;
 
-  updateMeta(id: string, dto: UpdateRoleDto, actorId?: string): Promise<RoleResult>;
+  updateMeta(
+    id: string,
+    dto: UpdateRoleDto,
+    callerTenantId: string | undefined,
+    callerId: string,
+    actorId?: string,
+  ): Promise<RoleResult>;
 
-  setPermissions(id: string, dto: SetRolePermissionsDto, actorId?: string): Promise<RoleResult>;
+  setPermissions(
+    id: string,
+    dto: SetRolePermissionsDto,
+    callerTenantId: string | undefined,
+    callerId: string,
+    actorId?: string,
+  ): Promise<RoleResult>;
 
-  delete(id: string, actorId?: string): Promise<DeleteRoleResult>;
+  delete(
+    id: string,
+    callerTenantId: string | undefined,
+    callerId: string,
+    actorId?: string,
+  ): Promise<DeleteRoleResult>;
 
   assignToUser(
     dto: AssignRoleDto,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<AssignRoleResult>;
 
   removeFromUser(
     dto: AssignRoleDto,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<AssignRoleResult>;
 }

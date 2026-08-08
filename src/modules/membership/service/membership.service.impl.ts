@@ -1,3 +1,4 @@
+import { callerBelongsToOrganization } from '../../../shared/security/authorization/organization-access.js';
 import { err, ok } from '../../../shared/result/result.js';
 import { OrganizationNotFoundError } from '../../organizations/errors/organization-not-found.error.js';
 import type { IOrganizationRepository } from '../../organizations/repository/interface/organization.repository.interface.js';
@@ -24,8 +25,9 @@ export class MembershipService implements IMembershipService {
   async list(
     organizationId: string,
     callerTenantId: string | undefined,
+    callerId: string,
   ): Promise<MemberListResult> {
-    if (!this.belongsToCaller(organizationId, callerTenantId)) {
+    if (!(await this.belongsToCaller(organizationId, callerTenantId, callerId))) {
       return err(new OrganizationNotFoundError());
     }
 
@@ -43,9 +45,10 @@ export class MembershipService implements IMembershipService {
     organizationId: string,
     userId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<MemberResult> {
-    if (!this.belongsToCaller(organizationId, callerTenantId)) {
+    if (!(await this.belongsToCaller(organizationId, callerTenantId, callerId))) {
       return err(new OrganizationNotFoundError());
     }
 
@@ -79,9 +82,10 @@ export class MembershipService implements IMembershipService {
     organizationId: string,
     userId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<MemberResult> {
-    if (!this.belongsToCaller(organizationId, callerTenantId)) {
+    if (!(await this.belongsToCaller(organizationId, callerTenantId, callerId))) {
       return err(new OrganizationNotFoundError());
     }
 
@@ -111,9 +115,10 @@ export class MembershipService implements IMembershipService {
     organizationId: string,
     userId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<RemoveMemberResult> {
-    if (!this.belongsToCaller(organizationId, callerTenantId)) {
+    if (!(await this.belongsToCaller(organizationId, callerTenantId, callerId))) {
       return err(new OrganizationNotFoundError());
     }
 
@@ -146,7 +151,13 @@ export class MembershipService implements IMembershipService {
    * application.service.impl.ts) - undefined callerTenantId
    * (single-tenant deployments, MULTI_TENANT=false) always passes.
    */
-  private belongsToCaller(organizationId: string, callerTenantId: string | undefined): boolean {
-    return callerTenantId === undefined || callerTenantId === organizationId;
+  private async belongsToCaller(
+    organizationId: string,
+    callerTenantId: string | undefined,
+    callerId: string,
+  ): Promise<boolean> {
+    // No allowPlatformOperator: the doc doesn't grant platform roles
+    // direct membership-management access to another org.
+    return callerBelongsToOrganization(organizationId, callerTenantId, callerId);
   }
 }

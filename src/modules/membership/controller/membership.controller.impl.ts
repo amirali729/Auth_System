@@ -11,7 +11,7 @@ export class MembershipController implements IMembershipController {
   constructor(private readonly service: IMembershipService) {}
 
   async list(req: Request, _res: Response, _next: NextFunction): Promise<MemberListResult> {
-    return this.service.list(req.params.orgId as string, req.tenantId);
+    return this.service.list(req.params.orgId as string, req.tenantId, req.user._id.toString());
   }
 
   async suspend(req: Request, _res: Response, _next: NextFunction): Promise<MemberResult> {
@@ -19,6 +19,7 @@ export class MembershipController implements IMembershipController {
       req.params.orgId as string,
       req.params.userId as string,
       req.tenantId,
+      req.user._id.toString(),
       req.user?._id?.toString(),
     );
   }
@@ -28,6 +29,7 @@ export class MembershipController implements IMembershipController {
       req.params.orgId as string,
       req.params.userId as string,
       req.tenantId,
+      req.user._id.toString(),
       req.user?._id?.toString(),
     );
   }
@@ -37,6 +39,7 @@ export class MembershipController implements IMembershipController {
       req.params.orgId as string,
       req.params.userId as string,
       req.tenantId,
+      req.user._id.toString(),
       req.user?._id?.toString(),
     );
   }

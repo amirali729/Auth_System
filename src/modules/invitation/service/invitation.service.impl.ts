@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 
+import { callerBelongsToOrganization } from '../../../shared/security/authorization/organization-access.js';
 import { ValidationError } from '../../../shared/errors/validation.error.js';
 import { err, ok } from '../../../shared/result/result.js';
 import { hashToken } from '../../../shared/security/hashing/token-hash.js';
@@ -49,17 +50,22 @@ export class InvitationService implements IInvitationService {
     private readonly auditLogger?: IAuditLogger,
   ) {}
 
-  private belongsToCaller(organizationId: string, callerTenantId: string | undefined): boolean {
-    return callerTenantId === undefined || callerTenantId === organizationId;
+  private async belongsToCaller(
+    organizationId: string,
+    callerTenantId: string | undefined,
+    callerId: string,
+  ): Promise<boolean> {
+    return callerBelongsToOrganization(organizationId, callerTenantId, callerId);
   }
 
   async invite(
     organizationId: string,
     dto: InviteMemberDto,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<InvitationResult> {
-    if (!this.belongsToCaller(organizationId, callerTenantId)) {
+    if (!(await this.belongsToCaller(organizationId, callerTenantId, callerId))) {
       return err(new OrganizationNotFoundError());
     }
 
@@ -131,8 +137,9 @@ export class InvitationService implements IInvitationService {
   async list(
     organizationId: string,
     callerTenantId: string | undefined,
+    callerId: string,
   ): Promise<InvitationListResult> {
-    if (!this.belongsToCaller(organizationId, callerTenantId)) {
+    if (!(await this.belongsToCaller(organizationId, callerTenantId, callerId))) {
       return err(new OrganizationNotFoundError());
     }
 
@@ -166,9 +173,10 @@ export class InvitationService implements IInvitationService {
     organizationId: string,
     invitationId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<RevokeInvitationResult> {
-    if (!this.belongsToCaller(organizationId, callerTenantId)) {
+    if (!(await this.belongsToCaller(organizationId, callerTenantId, callerId))) {
       return err(new OrganizationNotFoundError());
     }
 

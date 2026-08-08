@@ -1,3 +1,6 @@
+import type { Types } from 'mongoose';
+
+import { callerBelongsToOrganization } from '../../../shared/security/authorization/organization-access.js';
 import { err, ok } from '../../../shared/result/result.js';
 import { MemberNotFoundError } from '../../membership/errors/member-not-found.error.js';
 import { OrganizationNotFoundError } from '../../organizations/errors/organization-not-found.error.js';
@@ -44,14 +47,21 @@ export class RoleService implements IRoleService {
     return ok(found.value.map(toRoleResponse));
   }
 
-  async getById(id: string): Promise<RoleResult> {
+  async getById(
+    id: string,
+    callerTenantId: string | undefined,
+    callerId: string,
+  ): Promise<RoleResult> {
     const found = await this.roleRepository.findById(id);
 
     if (!found.ok) {
       return err(found.error);
     }
 
-    if (!found.value) {
+    if (
+      !found.value ||
+      !(await this.belongsToCaller(found.value.tenantId, callerTenantId, callerId))
+    ) {
       return err(new RoleNotFoundError());
     }
 
@@ -106,14 +116,23 @@ export class RoleService implements IRoleService {
     return ok(toRoleResponse(created.value));
   }
 
-  async updateMeta(id: string, dto: UpdateRoleDto, actorId?: string): Promise<RoleResult> {
+  async updateMeta(
+    id: string,
+    dto: UpdateRoleDto,
+    callerTenantId: string | undefined,
+    callerId: string,
+    actorId?: string,
+  ): Promise<RoleResult> {
     const existing = await this.roleRepository.findById(id);
 
     if (!existing.ok) {
       return err(existing.error);
     }
 
-    if (!existing.value) {
+    if (
+      !existing.value ||
+      !(await this.belongsToCaller(existing.value.tenantId, callerTenantId, callerId))
+    ) {
       return err(new RoleNotFoundError());
     }
 
@@ -154,6 +173,8 @@ export class RoleService implements IRoleService {
   async setPermissions(
     id: string,
     dto: SetRolePermissionsDto,
+    callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<RoleResult> {
     const existing = await this.roleRepository.findById(id);
@@ -162,7 +183,10 @@ export class RoleService implements IRoleService {
       return err(existing.error);
     }
 
-    if (!existing.value) {
+    if (
+      !existing.value ||
+      !(await this.belongsToCaller(existing.value.tenantId, callerTenantId, callerId))
+    ) {
       return err(new RoleNotFoundError());
     }
 
@@ -202,14 +226,22 @@ export class RoleService implements IRoleService {
     return ok(toRoleResponse(updated.value));
   }
 
-  async delete(id: string, actorId?: string): Promise<DeleteRoleResult> {
+  async delete(
+    id: string,
+    callerTenantId: string | undefined,
+    callerId: string,
+    actorId?: string,
+  ): Promise<DeleteRoleResult> {
     const existing = await this.roleRepository.findById(id);
 
     if (!existing.ok) {
       return err(existing.error);
     }
 
-    if (!existing.value) {
+    if (
+      !existing.value ||
+      !(await this.belongsToCaller(existing.value.tenantId, callerTenantId, callerId))
+    ) {
       return err(new RoleNotFoundError());
     }
 
@@ -237,9 +269,10 @@ export class RoleService implements IRoleService {
   async assignToUser(
     dto: AssignRoleDto,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<AssignRoleResult> {
-    if (!this.belongsToCaller(dto.organizationId, callerTenantId)) {
+    if (!(await this.belongsToCaller(dto.organizationId, callerTenantId, callerId))) {
       return err(new OrganizationNotFoundError());
     }
 
@@ -249,7 +282,12 @@ export class RoleService implements IRoleService {
       return err(role.error);
     }
 
-    if (!role.value) {
+    // A role id is only valid to assign within the SAME organization it
+    // was created in - without this, a caller who legitimately belongs
+    // to dto.organizationId could still pass a roleId from a completely
+    // different organization (whose permission set they've never been
+    // granted) and hand it to one of their own org's members.
+    if (!role.value || role.value.tenantId?.toString() !== dto.organizationId) {
       return err(new RoleNotFoundError());
     }
 
@@ -288,9 +326,10 @@ export class RoleService implements IRoleService {
   async removeFromUser(
     dto: AssignRoleDto,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<AssignRoleResult> {
-    if (!this.belongsToCaller(dto.organizationId, callerTenantId)) {
+    if (!(await this.belongsToCaller(dto.organizationId, callerTenantId, callerId))) {
       return err(new OrganizationNotFoundError());
     }
 
@@ -327,17 +366,34 @@ export class RoleService implements IRoleService {
   }
 
   /**
-   * True if a caller resolved to `callerTenantId` may act on
-   * organization `organizationId`. Mirrors the same fetch-then-compare
-   * pattern used for Membership/Application ownership - undefined
-   * callerTenantId (single-tenant mode, MULTI_TENANT=false) always
-   * passes. Without this, a caller holding role:update permission
-   * scoped to one org could target a DIFFERENT org's :orgId in the
-   * route and modify its memberships, since role:update is a
-   * permission KEY check, not itself an org-ownership check.
+   * True if a caller may act on organization `organizationId`.
+   * Delegates to the shared IDOR-safe check (see
+   * shared/security/authorization/organization-access.ts) rather than
+   * the old `callerTenantId === undefined ⇒ unrestricted` shortcut this
+   * used to be - that shortcut is exactly what let a caller holding
+   * role:update permission scoped to one org target a DIFFERENT org's
+   * roleId/organizationId, since role:update is a permission KEY check,
+   * not itself an org-ownership check.
+   *
+   * `roleTenantId` accepts the Role model's raw (possibly populated)
+   * `tenantId` field directly - `getById`/`updateMeta`/`setPermissions`/
+   * `delete` all call this with `existing.value.tenantId`, which is an
+   * ObjectId, not a route-param string.
    */
-  private belongsToCaller(organizationId: string, callerTenantId: string | undefined): boolean {
-    return callerTenantId === undefined || callerTenantId === organizationId;
+  private async belongsToCaller(
+    roleTenantId: string | Types.ObjectId | undefined,
+    callerTenantId: string | undefined,
+    callerId: string,
+  ): Promise<boolean> {
+    if (roleTenantId === undefined) {
+      // A role with no organization at all isn't a real, assignable
+      // org-scoped role in this architecture (every Role is created
+      // with the creating org's id - see create() above) - deny rather
+      // than guess.
+      return false;
+    }
+
+    return callerBelongsToOrganization(roleTenantId.toString(), callerTenantId, callerId);
   }
 
   private async validatePermissionIds(permissionIds: string[]): Promise<RoleError | undefined> {

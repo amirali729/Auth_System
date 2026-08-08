@@ -12,15 +12,21 @@ export interface IInvitationService {
     organizationId: string,
     dto: InviteMemberDto,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<InvitationResult>;
 
-  list(organizationId: string, callerTenantId: string | undefined): Promise<InvitationListResult>;
+  list(
+    organizationId: string,
+    callerTenantId: string | undefined,
+    callerId: string,
+  ): Promise<InvitationListResult>;
 
   revoke(
     organizationId: string,
     invitationId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<RevokeInvitationResult>;
 

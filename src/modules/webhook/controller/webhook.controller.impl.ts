@@ -17,7 +17,7 @@ export class WebhookController implements IWebhookController {
   constructor(private readonly service: IWebhookService) {}
 
   async list(req: Request, _res: Response, _next: NextFunction): Promise<WebhookListResult> {
-    return this.service.list(req.params.orgId as string, req.tenantId);
+    return this.service.list(req.params.orgId as string, req.tenantId, req.user._id.toString());
   }
 
   async create(req: Request, _res: Response, _next: NextFunction): Promise<WebhookCreatedResult> {
@@ -26,6 +26,7 @@ export class WebhookController implements IWebhookController {
       req.params.orgId as string,
       dto,
       req.tenantId,
+      req.user._id.toString(),
       req.user?._id?.toString(),
     );
   }
@@ -37,6 +38,7 @@ export class WebhookController implements IWebhookController {
       req.params.webhookId as string,
       dto,
       req.tenantId,
+      req.user._id.toString(),
       req.user?._id?.toString(),
     );
   }
@@ -50,6 +52,7 @@ export class WebhookController implements IWebhookController {
       req.params.orgId as string,
       req.params.webhookId as string,
       req.tenantId,
+      req.user._id.toString(),
       req.user?._id?.toString(),
     );
   }
@@ -59,6 +62,7 @@ export class WebhookController implements IWebhookController {
       req.params.orgId as string,
       req.params.webhookId as string,
       req.tenantId,
+      req.user._id.toString(),
       req.user?._id?.toString(),
     );
   }
@@ -68,6 +72,7 @@ export class WebhookController implements IWebhookController {
       req.params.orgId as string,
       req.params.webhookId as string,
       req.tenantId,
+      req.user._id.toString(),
       req.user?._id?.toString(),
     );
   }
@@ -77,6 +82,7 @@ export class WebhookController implements IWebhookController {
       req.params.orgId as string,
       req.params.webhookId as string,
       req.tenantId,
+      req.user._id.toString(),
       req.user?._id?.toString(),
     );
   }
@@ -90,6 +96,7 @@ export class WebhookController implements IWebhookController {
       req.params.orgId as string,
       req.params.webhookId as string,
       req.tenantId,
+      req.user._id.toString(),
     );
   }
 
@@ -103,6 +110,7 @@ export class WebhookController implements IWebhookController {
       req.params.webhookId as string,
       req.params.deliveryId as string,
       req.tenantId,
+      req.user._id.toString(),
       req.user?._id?.toString(),
     );
   }
