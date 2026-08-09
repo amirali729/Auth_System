@@ -13,6 +13,7 @@ import { HttpStatus } from '../../../shared/http/http-status.js';
 import { validate } from '../../../shared/http/validate.js';
 import { requirePermission } from '../../../shared/security/middleware/requirePermission.middleware.js';
 import { resolveTenant } from '../../../shared/security/middleware/resolveTenant.middleware.js';
+import { verifyjwt } from '../../../shared/security/middleware/verifyJwt.middleware.js';
 import { objectIdParamSchema } from '../../../shared/validation/object-id.schema.js';
 
 import {
@@ -49,7 +50,18 @@ const roleService = new RoleService(
 );
 const roleController = new RoleController(roleService);
 
-router.use(resolveTenant);
+// SECURITY FIX (authorization audit): this router was missing
+// verifyjwt entirely, so req.user was never set. resolveTenant then
+// took its "no authenticated caller" branch and set req.tenantId
+// straight from the X-Tenant-ID header with NO membership check at
+// all. requirePermission below does independently reject when
+// req.user is undefined (see requirePermission.middleware.ts), so the
+// net effect was every Role route 401ing rather than an open bypass -
+// but it meant the entire Role module (core to the Membership-based
+// RBAC design) never actually worked. verifyjwt MUST run before
+// resolveTenant - resolveTenant's membership check depends on req.user
+// already being set.
+router.use(verifyjwt, resolveTenant);
 
 router.get(
   ROLE_LIST,

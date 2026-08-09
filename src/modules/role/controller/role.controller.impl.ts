@@ -20,7 +20,7 @@ export class RoleController implements IRoleController {
   }
 
   async getById(req: Request, _res: Response, _next: NextFunction): Promise<RoleResult> {
-    return this.service.getById(req.params.id as string);
+    return this.service.getById(req.params.id as string, req.tenantId, req.user._id.toString());
   }
 
   async create(req: Request, _res: Response, _next: NextFunction): Promise<RoleResult> {
@@ -36,17 +36,34 @@ export class RoleController implements IRoleController {
   async updateMeta(req: Request, _res: Response, _next: NextFunction): Promise<RoleResult> {
     const dto = new UpdateRoleDto(req.body.name, req.body.description);
 
-    return this.service.updateMeta(req.params.id as string, dto, req.user?._id?.toString());
+    return this.service.updateMeta(
+      req.params.id as string,
+      dto,
+      req.tenantId,
+      req.user._id.toString(),
+      req.user?._id?.toString(),
+    );
   }
 
   async setPermissions(req: Request, _res: Response, _next: NextFunction): Promise<RoleResult> {
     const dto = new SetRolePermissionsDto(req.body.permissionIds ?? []);
 
-    return this.service.setPermissions(req.params.id as string, dto, req.user?._id?.toString());
+    return this.service.setPermissions(
+      req.params.id as string,
+      dto,
+      req.tenantId,
+      req.user._id.toString(),
+      req.user?._id?.toString(),
+    );
   }
 
   async delete(req: Request, _res: Response, _next: NextFunction): Promise<DeleteRoleResult> {
-    return this.service.delete(req.params.id as string, req.user?._id?.toString());
+    return this.service.delete(
+      req.params.id as string,
+      req.tenantId,
+      req.user._id.toString(),
+      req.user?._id?.toString(),
+    );
   }
 
   async assignToUser(req: Request, _res: Response, _next: NextFunction): Promise<AssignRoleResult> {
@@ -56,7 +73,12 @@ export class RoleController implements IRoleController {
       req.body.roleId,
     );
 
-    return this.service.assignToUser(dto, req.tenantId, req.user?._id?.toString());
+    return this.service.assignToUser(
+      dto,
+      req.tenantId,
+      req.user._id.toString(),
+      req.user?._id?.toString(),
+    );
   }
 
   async removeFromUser(
@@ -70,6 +92,11 @@ export class RoleController implements IRoleController {
       req.params.roleId as string,
     );
 
-    return this.service.removeFromUser(dto, req.tenantId, req.user?._id?.toString());
+    return this.service.removeFromUser(
+      dto,
+      req.tenantId,
+      req.user._id.toString(),
+      req.user?._id?.toString(),
+    );
   }
 }

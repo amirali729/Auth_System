@@ -51,8 +51,9 @@ export class WebhookService implements IWebhookService {
   async list(
     organizationId: string,
     callerTenantId: string | undefined,
+    callerId: string,
   ): Promise<WebhookListResult> {
-    if (!this.belongsToCaller(organizationId, callerTenantId)) {
+    if (!(await this.belongsToCaller(organizationId, callerTenantId, callerId))) {
       return err(new OrganizationNotFoundError());
     }
 
@@ -69,9 +70,10 @@ export class WebhookService implements IWebhookService {
     organizationId: string,
     dto: CreateWebhookDto,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<WebhookCreatedResult> {
-    if (!this.belongsToCaller(organizationId, callerTenantId)) {
+    if (!(await this.belongsToCaller(organizationId, callerTenantId, callerId))) {
       return err(new OrganizationNotFoundError());
     }
 
@@ -121,9 +123,10 @@ export class WebhookService implements IWebhookService {
     webhookId: string,
     dto: UpdateWebhookDto,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<WebhookResult> {
-    if (!this.belongsToCaller(organizationId, callerTenantId)) {
+    if (!(await this.belongsToCaller(organizationId, callerTenantId, callerId))) {
       return err(new OrganizationNotFoundError());
     }
 
@@ -178,9 +181,10 @@ export class WebhookService implements IWebhookService {
     organizationId: string,
     webhookId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<RotateWebhookSecretResult> {
-    if (!this.belongsToCaller(organizationId, callerTenantId)) {
+    if (!(await this.belongsToCaller(organizationId, callerTenantId, callerId))) {
       return err(new OrganizationNotFoundError());
     }
 
@@ -222,28 +226,31 @@ export class WebhookService implements IWebhookService {
     organizationId: string,
     webhookId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<WebhookResult> {
-    return this.setStatus(organizationId, webhookId, callerTenantId, 'active', actorId);
+    return this.setStatus(organizationId, webhookId, callerTenantId, callerId, 'active', actorId);
   }
 
   async disable(
     organizationId: string,
     webhookId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<WebhookResult> {
-    return this.setStatus(organizationId, webhookId, callerTenantId, 'disabled', actorId);
+    return this.setStatus(organizationId, webhookId, callerTenantId, callerId, 'disabled', actorId);
   }
 
   private async setStatus(
     organizationId: string,
     webhookId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     status: 'active' | 'disabled',
     actorId?: string,
   ): Promise<WebhookResult> {
-    if (!this.belongsToCaller(organizationId, callerTenantId)) {
+    if (!(await this.belongsToCaller(organizationId, callerTenantId, callerId))) {
       return err(new OrganizationNotFoundError());
     }
 
@@ -283,9 +290,10 @@ export class WebhookService implements IWebhookService {
     organizationId: string,
     webhookId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<DeleteWebhookResult> {
-    if (!this.belongsToCaller(organizationId, callerTenantId)) {
+    if (!(await this.belongsToCaller(organizationId, callerTenantId, callerId))) {
       return err(new OrganizationNotFoundError());
     }
 
@@ -321,8 +329,9 @@ export class WebhookService implements IWebhookService {
     organizationId: string,
     webhookId: string,
     callerTenantId: string | undefined,
+    callerId: string,
   ): Promise<WebhookDeliveryListResult> {
-    if (!this.belongsToCaller(organizationId, callerTenantId)) {
+    if (!(await this.belongsToCaller(organizationId, callerTenantId, callerId))) {
       return err(new OrganizationNotFoundError());
     }
 
@@ -351,9 +360,10 @@ export class WebhookService implements IWebhookService {
     webhookId: string,
     deliveryId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<RedeliverWebhookResult> {
-    if (!this.belongsToCaller(organizationId, callerTenantId)) {
+    if (!(await this.belongsToCaller(organizationId, callerTenantId, callerId))) {
       return err(new OrganizationNotFoundError());
     }
 
@@ -424,7 +434,17 @@ export class WebhookService implements IWebhookService {
     return found;
   }
 
-  private belongsToCaller(organizationId: string, callerTenantId: string | undefined): boolean {
-    return callerTenantId === undefined || callerTenantId === organizationId;
+  private async belongsToCaller(
+    organizationId: string,
+    callerTenantId: string | undefined,
+    callerId: string,
+  ): Promise<boolean> {
+    // No allowPlatformOperator here: the Roles & Permissions doc does
+    // not grant Platform Owner/Admin/Support direct cross-organization
+    // access to another org's webhooks - only to Organizations/Users
+    // (and, via the dedicated Admin/Metrics modules, Applications/API
+    // Keys/Audit Logs). A platform operator acting on webhooks still
+    // needs their own Membership in that org, same as anyone else.
+    return callerBelongsToOrganization(organizationId, callerTenantId, callerId);
   }
 }
