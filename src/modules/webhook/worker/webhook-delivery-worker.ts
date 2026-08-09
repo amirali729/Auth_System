@@ -1,7 +1,7 @@
-import { decryptSecret } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/security/encryption/symmetric-encryption.js';
-import { Logger } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/utils/logger.js';
-import { RecordAuditEventDto } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/audit/dto/record-audit-event.dto.js';
-import type { IAuditLogger } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/audit/service/interface/audit-logger.interface.js';
+import { decryptSecret } from '../../../shared/security/encryption/symmetric-encryption.js';
+import { Logger } from '../../../shared/utils/logger.js';
+import { RecordAuditEventDto } from '../../audit/index.js';
+import type { IAuditLogger } from '../../audit/index.js';
 import type { IWebhookDeliveryRepository } from '../repository/interface/webhook-delivery.repository.interface.js';
 import type { IWebhookRepository } from '../repository/interface/webhook.repository.interface.js';
 import { computeWebhookSignature } from '../security/signature.js';

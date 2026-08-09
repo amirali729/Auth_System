@@ -1,5 +1,5 @@
-import type { InfrastructureError } from '../../../../../../Auth_System_updated (2)/Auth_System/src/shared/errors/infrastructure.error.js';
-import type { Result } from '../../../../../../Auth_System_updated (2)/Auth_System/src/shared/result/result.js';
+import type { InfrastructureError } from '../../../../shared/errors/infrastructure.error.js';
+import type { Result } from '../../../../shared/result/result.js';
 import type {
   ApiKeyMetricsData,
   ApplicationMetricsData,

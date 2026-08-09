@@ -1,7 +1,4 @@
-import {
-  err,
-  ok,
-} from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/result/result.js';
+import { err, ok } from '../../../shared/result/result.js';
 import type { IMetricsRepository } from '../repository/interface/metrics.repository.interface.js';
 import { ApiKeyMetricsResponse } from '../responses/api-key-metrics.response.js';
 import { ApplicationMetricsResponse } from '../responses/application-metrics.response.js';

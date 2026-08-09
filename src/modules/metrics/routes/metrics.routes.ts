@@ -5,9 +5,9 @@ import { mapMetricsError } from '../http/map-metrics-error.js';
 import { MetricsRepository } from '../repository/metrics.repository.impl.js';
 import { MetricsService } from '../service/metrics.service.impl.js';
 
-import { handle } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/http/handle.js';
-import { requirePermission } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/security/middleware/requirePermission.middleware.js';
-import { verifyjwt } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/security/middleware/verifyJwt.middleware.js';
+import { handle } from '../../../shared/http/handle.js';
+import { requirePermission } from '../../../shared/security/middleware/requirePermission.middleware.js';
+import { verifyjwt } from '../../../shared/security/middleware/verifyJwt.middleware.js';
 
 import {
   METRICS_API_KEYS,
@@ -16,7 +16,7 @@ import {
   METRICS_OAUTH,
   METRICS_ORGANIZATIONS,
   METRICS_WEBHOOKS,
-} from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/api-endpoint/metrics.api.endpoint.js';
+} from '../../../shared/api-endpoint/metrics.api.endpoint.js';
 
 const router = Router();
 

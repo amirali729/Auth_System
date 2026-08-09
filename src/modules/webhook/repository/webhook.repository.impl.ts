@@ -1,8 +1,5 @@
-import { InfrastructureError } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/errors/infrastructure.error.js';
-import {
-  err,
-  ok,
-} from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/result/result.js';
+import { InfrastructureError } from '../../../shared/errors/infrastructure.error.js';
+import { err, ok } from '../../../shared/result/result.js';
 import type { IWebhook, WebhookStatus } from '../model/webhook.model.js';
 import { Webhook } from '../model/webhook.model.js';
 import type { DataResult, IWebhookRepository } from './interface/webhook.repository.interface.js';

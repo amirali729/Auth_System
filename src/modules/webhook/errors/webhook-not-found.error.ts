@@ -1,4 +1,4 @@
-import type { ErrorShape } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/errors/error.shape.js';
+import type { ErrorShape } from '../../../shared/errors/error.shape.js';
 
 export class WebhookNotFoundError implements ErrorShape {
   readonly kind = 'webhook_not_found';

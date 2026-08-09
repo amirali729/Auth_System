@@ -1,5 +1,5 @@
-import { eventBus } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/events/event-bus.js';
-import { auditService } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/audit/routes/audit.routes.js';
+import { auditService } from '../../audit/routes/audit.routes.js';
+import { eventBus } from '../../../shared/events/event-bus.js';
 import { WebhookDeliveryRepository } from '../repository/webhook-delivery.repository.impl.js';
 import { WebhookRepository } from '../repository/webhook.repository.impl.js';
 import { InMemoryWebhookDeliveryQueue } from './webhook-delivery-queue.js';

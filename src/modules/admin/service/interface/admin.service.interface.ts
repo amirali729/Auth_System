@@ -12,8 +12,7 @@ import type {
   AdminUserListResult,
   SystemSettingsResult,
 } from '../../types/admin.types.js';
-import type { PlatformRole } from '../../../../../../Auth_System_updated (2)/Auth_System/src/shared/security/authorization/platform-roles.js';
-
+import type { PlatformRole } from '../../../../shared/security/authorization/platform-roles.js';
 export interface IAdminService {
   listUsers(dto: ListUsersDto): Promise<AdminUserListResult>;
 

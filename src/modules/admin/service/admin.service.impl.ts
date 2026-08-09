@@ -1,16 +1,13 @@
-import { ForbiddenError } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/errors/forbidden.error.js';
-import { NotFoundError } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/errors/not-found.error.js';
-import {
-  err,
-  ok,
-} from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/result/result.js';
+import { ForbiddenError } from '../../../shared/errors/forbidden.error.js';
+import { NotFoundError } from '../../../shared/errors/not-found.error.js';
+import { err, ok } from '../../../shared/result/result.js';
 
-import { RecordAuditEventDto } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/audit/dto/record-audit-event.dto.js';
-import type { IAuditLogger } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/audit/service/interface/audit-logger.interface.js';
-import type { IMembershipRepository } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/membership/repository/interface/membership.repository.interface.js';
-import type { IOrganization } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/organizations/model/organization.model.js';
-import type { IRole } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/role/model/role.model.js';
-import type { ISessionService } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/session/service/interface/session.service.interface.js';
+import { RecordAuditEventDto } from '../../audit/dto/record-audit-event.dto.js';
+import type { IAuditLogger } from '../../audit/service/interface/audit-logger.interface.js';
+import type { IMembershipRepository } from '../../membership/repository/interface/membership.repository.interface.js';
+import type { IOrganization } from '../../organizations/model/organization.model.js';
+import type { IRole } from '../../role/model/role.model.js';
+import type { ISessionService } from '../../session/service/interface/session.service.interface.js';
 
 import type { AdminListApiKeysDto } from '../dto/list-api-keys.dto.js';
 import type { AdminListApplicationsDto } from '../dto/list-applications.dto.js';
@@ -38,7 +35,7 @@ import type {
   AdminUserListResult,
   SystemSettingsResult,
 } from '../types/admin.types.js';
-import type { PlatformRole } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/security/authorization/platform-roles.js';
+import type { PlatformRole } from '../../../shared/security/authorization/platform-roles.js';
 import type { IAdminService } from './interface/admin.service.interface.js';
 
 export class AdminService implements IAdminService {

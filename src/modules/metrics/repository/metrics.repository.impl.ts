@@ -1,20 +1,17 @@
-import { User } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/auth/model/user.model.js';
-import { AuditLog } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/audit/model/audit-log.model.js';
-import { AuthorizationCode } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/oauth/model/authorization-code.model.js';
-import { OAuthAccessToken } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/oauth/model/oauth-access-token.model.js';
-import { OAuthClient } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/oauth/model/oauth-client.model.js';
-import { OAuthRefreshToken } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/oauth/model/oauth-refresh-token.model.js';
-import { Application } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/application/model/application.model.js';
-import { ApiKey } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/apikey/model/api-key.model.js';
+import { User } from '../../auth/model/user.model.js';
+import { AuditLog } from '../../audit/model/audit-log.model.js';
+import { AuthorizationCode } from '../../oauth/model/authorization-code.model.js';
+import { OAuthAccessToken } from '../../oauth/model/oauth-access-token.model.js';
+import { OAuthClient } from '../../oauth/model/oauth-client.model.js';
+import { OAuthRefreshToken } from '../../oauth/model/oauth-refresh-token.model.js';
+import { Application } from '../../application/model/application.model.js';
+import { ApiKey } from '../../apikey/model/api-key.model.js';
 import { Webhook } from '../../webhook/model/webhook.model.js';
 import { WebhookDelivery } from '../../webhook/model/webhook-delivery.model.js';
-import { Tenant } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/organizations/model/organization.model.js';
+import { Tenant } from '../../organizations/model/organization.model.js';
 
-import { InfrastructureError } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/errors/infrastructure.error.js';
-import {
-  err,
-  ok,
-} from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/result/result.js';
+import { InfrastructureError } from '../../../shared/errors/infrastructure.error.js';
+import { err, ok } from '../../../shared/result/result.js';
 
 import type {
   ApiKeyMetricsData,

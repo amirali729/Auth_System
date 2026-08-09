@@ -1,7 +1,7 @@
-import type { InfrastructureError } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/errors/infrastructure.error.js';
-import type { ValidationError } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/errors/validation.error.js';
-import type { Result } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/result/result.js';
-import type { OrganizationNotFoundError } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/organizations/errors/organization-not-found.error.js';
+import type { InfrastructureError } from '../../../shared/errors/infrastructure.error.js';
+import type { ValidationError } from '../../../shared/errors/validation.error.js';
+import type { Result } from '../../../shared/result/result.js';
+import type { OrganizationNotFoundError } from '../../organizations/errors/organization-not-found.error.js';
 import type { WebhookDeliveryNotFoundError } from '../errors/webhook-delivery-not-found.error.js';
 import type { WebhookNotFoundError } from '../errors/webhook-not-found.error.js';
 import type { RedeliverWebhookResponse } from '../responses/redeliver-webhook.response.js';

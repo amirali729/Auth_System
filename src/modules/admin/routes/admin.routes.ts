@@ -1,21 +1,19 @@
 import { Router } from 'express';
 
-import { auditService } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/audit/routes/audit.routes.js';
-import { MembershipRepository } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/membership/repository/membership.repository.impl.js';
-import { SessionRepository } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/session/repository/session.repository.impl.js';
-import { SessionService } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/session/service/session.service.impl.js';
-
+import { auditService } from '../../audit/routes/audit.routes.js';
+import { MembershipRepository } from '../../membership/repository/membership.repository.impl.js';
+import { SessionRepository } from '../../session/index.js';
+import { SessionService } from '../../session/index.js';
 import { AdminController } from '../controller/admin.controller.impl.js';
 import { mapAdminError } from '../http/map-admin-error.js';
 import { AdminRepository } from '../repository/admin.repository.impl.js';
 import { AdminService } from '../service/admin.service.impl.js';
 
-import { handle } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/http/handle.js';
-import { validate } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/http/validate.js';
-import { requirePermission } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/security/middleware/requirePermission.middleware.js';
-import { verifyjwt } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/security/middleware/verifyJwt.middleware.js';
-import { objectIdParamSchema } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/validation/object-id.schema.js';
-
+import { handle } from '../../../shared/http/handle.js';
+import { validate } from '../../../shared/http/validate.js';
+import { requirePermission } from '../../../shared/security/middleware/requirePermission.middleware.js';
+import { verifyjwt } from '../../../shared/security/middleware/verifyJwt.middleware.js';
+import { objectIdParamSchema } from '../../../shared/validation/object-id.schema.js';
 import {
   listApiKeysQuerySchema,
   listApplicationsQuerySchema,
@@ -33,7 +31,7 @@ import {
   ADMIN_USERS_GET_BY_ID,
   ADMIN_USERS_LIST,
   ADMIN_USERS_UPDATE,
-} from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/api-endpoint/admin.api.endpoint.js';
+} from '../../../shared/api-endpoint/admin.api.endpoint.js';
 
 const router = Router();
 

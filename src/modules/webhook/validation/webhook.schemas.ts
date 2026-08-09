@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { DOMAIN_EVENTS } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/events/domain-events.js';
-import { objectIdSchema } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/validation/object-id.schema.js';
+import { DOMAIN_EVENTS } from '../../../shared/events/domain-events.js';
+import { objectIdSchema } from '../../../shared/validation/object-id.schema.js';
 
 const KNOWN_EVENT_TYPES = new Set<string>(Object.values(DOMAIN_EVENTS));
 

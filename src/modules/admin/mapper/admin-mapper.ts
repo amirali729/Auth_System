@@ -1,6 +1,6 @@
-import type { IApiKey } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/apikey/model/api-key.model.js';
-import type { IApplication } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/application/model/application.model.js';
-import type { IUser } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/auth/model/user.model.js';
+import type { IApiKey } from '../../apikey/model/api-key.model.js';
+import type { IApplication } from '../../application/model/application.model.js';
+import type { IUser } from '../../auth/model/user.model.js';
 import type { AdminUserOrganizationSummary } from '../responses/admin-user.response.js';
 import { AdminUserDetailResponse, AdminUserResponse } from '../responses/admin-user.response.js';
 import { AdminApiKeyResponse } from '../responses/admin-api-key.response.js';

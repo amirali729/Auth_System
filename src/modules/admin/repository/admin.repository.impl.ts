@@ -1,15 +1,12 @@
-import { User } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/auth/model/user.model.js';
-import type { IUser } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/auth/model/user.model.js';
-import { ApiKey } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/apikey/model/api-key.model.js';
-import type { IApiKey } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/apikey/model/api-key.model.js';
-import { Application } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/application/model/application.model.js';
-import type { IApplication } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/application/model/application.model.js';
+import { User } from '../../auth/model/user.model.js';
+import type { IUser } from '../../auth/model/user.model.js';
+import { ApiKey } from '../../apikey/model/api-key.model.js';
+import type { IApiKey } from '../../apikey/model/api-key.model.js';
+import { Application } from '../../application/model/application.model.js';
+import type { IApplication } from '../../application/model/application.model.js';
 
-import { InfrastructureError } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/errors/infrastructure.error.js';
-import {
-  err,
-  ok,
-} from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/result/result.js';
+import { InfrastructureError } from '../../../shared/errors/infrastructure.error.js';
+import { err, ok } from '../../../shared/result/result.js';
 
 import type { AdminListApiKeysDto } from '../dto/list-api-keys.dto.js';
 import type { AdminListApplicationsDto } from '../dto/list-applications.dto.js';

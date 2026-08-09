@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { PLATFORM_ROLES } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/security/authorization/platform-roles.js';
+import { PLATFORM_ROLES } from '../../../shared/security/authorization/platform-roles.js';
 
 export const listUsersQuerySchema = z.object({
   page: z.coerce.number().int().min(1).optional(),

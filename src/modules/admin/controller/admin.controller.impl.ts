@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from 'express';
 import { AdminListApiKeysDto } from '../dto/list-api-keys.dto.js';
 import { AdminListApplicationsDto } from '../dto/list-applications.dto.js';
 import { ListUsersDto } from '../dto/list-users.dto.js';
-import type { PlatformRole } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/security/authorization/platform-roles.js';
+import type { PlatformRole } from '../../../shared/security/authorization/platform-roles.js';
 import { UpdateSystemSettingsDto } from '../dto/update-system-settings.dto.js';
 import { UpdateUserDto } from '../dto/update-user.dto.js';
 import type { IAdminService } from '../service/interface/admin.service.interface.js';
