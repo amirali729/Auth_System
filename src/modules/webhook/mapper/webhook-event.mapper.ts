@@ -1,4 +1,4 @@
-import type { DomainEvent } from '../../../shared/events/domain-event.js';
+import type { DomainEvent } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/events/domain-event.js';
 import type { WebhookEventPayload } from '../types/webhook-event-payload.js';
 
 /**

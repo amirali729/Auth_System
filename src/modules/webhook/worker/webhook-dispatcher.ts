@@ -1,6 +1,6 @@
-import type { DomainEvent } from '../../../shared/events/domain-event.js';
-import type { IEventBus } from '../../../shared/events/event-bus.interface.js';
-import { Logger } from '../../../shared/utils/logger.js';
+import type { DomainEvent } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/events/domain-event.js';
+import type { IEventBus } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/events/event-bus.interface.js';
+import { Logger } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/utils/logger.js';
 import { toWebhookEventPayload } from '../mapper/webhook-event.mapper.js';
 import type { IWebhookDeliveryRepository } from '../repository/interface/webhook-delivery.repository.interface.js';
 import type { IWebhookRepository } from '../repository/interface/webhook.repository.interface.js';

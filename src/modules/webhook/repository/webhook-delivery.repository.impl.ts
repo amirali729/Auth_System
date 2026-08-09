@@ -1,5 +1,8 @@
-import { InfrastructureError } from '../../../shared/errors/infrastructure.error.js';
-import { err, ok } from '../../../shared/result/result.js';
+import { InfrastructureError } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/errors/infrastructure.error.js';
+import {
+  err,
+  ok,
+} from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/result/result.js';
 import type { IWebhookDelivery } from '../model/webhook-delivery.model.js';
 import { WebhookDelivery } from '../model/webhook-delivery.model.js';
 import type {

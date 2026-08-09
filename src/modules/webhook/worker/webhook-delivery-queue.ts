@@ -1,4 +1,4 @@
-import { Logger } from '../../../shared/utils/logger.js';
+import { Logger } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/utils/logger.js';
 import type { IWebhookDeliveryRepository } from '../repository/interface/webhook-delivery.repository.interface.js';
 
 export interface IWebhookDeliveryQueue {

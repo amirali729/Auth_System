@@ -1,12 +1,16 @@
 import crypto from 'crypto';
 
-import { InfrastructureError } from '../../../shared/errors/infrastructure.error.js';
-import { ValidationError } from '../../../shared/errors/validation.error.js';
-import { err, ok } from '../../../shared/result/result.js';
-import { encryptSecret } from '../../../shared/security/encryption/symmetric-encryption.js';
-import { RecordAuditEventDto } from '../../audit/dto/record-audit-event.dto.js';
-import type { IAuditLogger } from '../../audit/service/interface/audit-logger.interface.js';
-import { OrganizationNotFoundError } from '../../organizations/errors/organization-not-found.error.js';
+import { callerBelongsToOrganization } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/security/authorization/organization-access.js';
+import { InfrastructureError } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/errors/infrastructure.error.js';
+import { ValidationError } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/errors/validation.error.js';
+import {
+  err,
+  ok,
+} from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/result/result.js';
+import { encryptSecret } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/security/encryption/symmetric-encryption.js';
+import { RecordAuditEventDto } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/audit/dto/record-audit-event.dto.js';
+import type { IAuditLogger } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/audit/service/interface/audit-logger.interface.js';
+import { OrganizationNotFoundError } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/organizations/errors/organization-not-found.error.js';
 import type { CreateWebhookDto } from '../dto/create-webhook.dto.js';
 import type { UpdateWebhookDto } from '../dto/update-webhook.dto.js';
 import { WebhookDeliveryNotFoundError } from '../errors/webhook-delivery-not-found.error.js';

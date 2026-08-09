@@ -11,12 +11,17 @@ import type {
 } from '../../types/webhook.types.js';
 
 export interface IWebhookService {
-  list(organizationId: string, callerTenantId: string | undefined): Promise<WebhookListResult>;
+  list(
+    organizationId: string,
+    callerTenantId: string | undefined,
+    callerId: string,
+  ): Promise<WebhookListResult>;
 
   create(
     organizationId: string,
     dto: CreateWebhookDto,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<WebhookCreatedResult>;
 
@@ -25,6 +30,7 @@ export interface IWebhookService {
     webhookId: string,
     dto: UpdateWebhookDto,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<WebhookResult>;
 
@@ -32,6 +38,7 @@ export interface IWebhookService {
     organizationId: string,
     webhookId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<RotateWebhookSecretResult>;
 
@@ -39,6 +46,7 @@ export interface IWebhookService {
     organizationId: string,
     webhookId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<WebhookResult>;
 
@@ -46,6 +54,7 @@ export interface IWebhookService {
     organizationId: string,
     webhookId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<WebhookResult>;
 
@@ -53,6 +62,7 @@ export interface IWebhookService {
     organizationId: string,
     webhookId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<DeleteWebhookResult>;
 
@@ -60,6 +70,7 @@ export interface IWebhookService {
     organizationId: string,
     webhookId: string,
     callerTenantId: string | undefined,
+    callerId: string,
   ): Promise<WebhookDeliveryListResult>;
 
   redeliver(
@@ -67,6 +78,7 @@ export interface IWebhookService {
     webhookId: string,
     deliveryId: string,
     callerTenantId: string | undefined,
+    callerId: string,
     actorId?: string,
   ): Promise<RedeliverWebhookResult>;
 }

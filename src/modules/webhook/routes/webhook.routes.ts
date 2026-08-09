@@ -10,15 +10,15 @@ import {
   WEBHOOK_LIST,
   WEBHOOK_ROTATE_SECRET,
   WEBHOOK_UPDATE,
-} from '../../../shared/api-endpoint/webhook.api.endpoint.js';
-import { handle } from '../../../shared/http/handle.js';
-import { HttpStatus } from '../../../shared/http/http-status.js';
-import { validate } from '../../../shared/http/validate.js';
-import { webhookManagementRateLimiter } from '../../../shared/security/middleware/rate-limit.middleware.js';
-import { requirePermission } from '../../../shared/security/middleware/requirePermission.middleware.js';
-import { resolveTenant } from '../../../shared/security/middleware/resolveTenant.middleware.js';
-import { verifyjwt } from '../../../shared/security/middleware/verifyJwt.middleware.js';
-import { auditService } from '../../audit/routes/audit.routes.js';
+} from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/api-endpoint/webhook.api.endpoint.js';
+import { handle } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/http/handle.js';
+import { HttpStatus } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/http/http-status.js';
+import { validate } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/http/validate.js';
+import { webhookManagementRateLimiter } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/security/middleware/rate-limit.middleware.js';
+import { requirePermission } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/security/middleware/requirePermission.middleware.js';
+import { resolveTenant } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/security/middleware/resolveTenant.middleware.js';
+import { verifyjwt } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/security/middleware/verifyJwt.middleware.js';
+import { auditService } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/audit/routes/audit.routes.js';
 import { WebhookController } from '../controller/webhook.controller.impl.js';
 import { mapWebhookError } from '../http/map-webhook-error.js';
 import { WebhookDeliveryRepository } from '../repository/webhook-delivery.repository.impl.js';
