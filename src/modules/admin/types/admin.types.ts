@@ -1,11 +1,11 @@
-import type { ForbiddenError } from '../../../shared/errors/forbidden.error.js';
-import type { InfrastructureError } from '../../../shared/errors/infrastructure.error.js';
-import type { NotFoundError } from '../../../shared/errors/not-found.error.js';
-import type { ValidationError } from '../../../shared/errors/validation.error.js';
-import type { Result } from '../../../shared/result/result.js';
-import type { InvalidRefreshTokenError } from '../../session/errors/invalid-refresh-token.error.js';
-import type { SessionExpiredError } from '../../session/errors/session-expired.error.js';
-import type { SessionNotFoundError } from '../../session/errors/session-not-found.error.js';
+import type { ForbiddenError } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/errors/forbidden.error.js';
+import type { InfrastructureError } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/errors/infrastructure.error.js';
+import type { NotFoundError } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/errors/not-found.error.js';
+import type { ValidationError } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/errors/validation.error.js';
+import type { Result } from '../../../../../Auth_System_updated (2)/Auth_System/src/shared/result/result.js';
+import type { InvalidRefreshTokenError } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/session/errors/invalid-refresh-token.error.js';
+import type { SessionExpiredError } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/session/errors/session-expired.error.js';
+import type { SessionNotFoundError } from '../../../../../Auth_System_updated (2)/Auth_System/src/modules/session/errors/session-not-found.error.js';
 import type {
   AdminUserDetailResponse,
   AdminUserListResponse,
