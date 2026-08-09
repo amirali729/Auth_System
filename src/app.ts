@@ -4,6 +4,7 @@ import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
+import adminRouter from './modules/admin/routes/admin.routes.js';
 import apiKeyRouter from './modules/apikey/routes/api-key.routes.js';
 import applicationRouter from './modules/application/routes/application.routes.js';
 import auditRouter from './modules/audit/routes/audit.routes.js';
@@ -134,6 +135,7 @@ export function createApp() {
   app.use('/api/v1', settingsRouter);
   app.use('/api/v1', dashboardRouter);
   app.use('/api/v1', metricsRouter);
+  app.use('/api/v1', adminRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
