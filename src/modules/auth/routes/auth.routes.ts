@@ -12,7 +12,10 @@ import { handle } from '../../../shared/http/handle.js';
 import { HttpStatus } from '../../../shared/http/http-status.js';
 import { validate } from '../../../shared/http/validate.js';
 import { BaseResponse } from '../../../shared/response/base.response.js';
-import { getUserPermissionKeys } from '../../../shared/security/authorization/permission-evaluator.js';
+import {
+  expandPermissionKeysForClient,
+  getUserPermissionKeys,
+} from '../../../shared/security/authorization/permission-evaluator.js';
 import {
   authRateLimiter,
   sensitiveActionRateLimiter,
@@ -137,9 +140,10 @@ router.post(
 // route.
 router.get(ME, verifyjwt, resolveTenant, async (req, res) => {
   const permissions = await getUserPermissionKeys(req.user._id.toString(), req.tenantId);
+  const expanded = await expandPermissionKeysForClient(permissions);
   return new BaseResponse({
     user: toUserResponse(req.user),
-    permissions: Array.from(permissions),
+    permissions: expanded,
   }).send(res);
 });
 

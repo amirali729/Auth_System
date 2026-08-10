@@ -41,7 +41,7 @@ async function main() {
   await import('../modules/webhook/model/webhook.model.js');
   await import('../modules/webhook/model/webhook-delivery.model.js');
   await import('../modules/settings/model/user-settings.model.js');
-  // await import('../modules/admin/model/system-settings.model.js');
+  await import('../modules/admin/model/system-settings.model.js');
 
   const registeredModelNames = new Set(mongoose.modelNames());
   const problems: string[] = [];
